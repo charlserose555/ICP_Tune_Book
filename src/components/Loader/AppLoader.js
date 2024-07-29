@@ -27,7 +27,7 @@ export default function AppLoader({isPercentage = true}) {
       <div className="flex justify-center items-center">        
         {/* <CircularSpinner/> */}
         <div className="absolute items-center flex justify-center flex-col">
-          {/* <img src="/logo.png" style={{width: '48px', height: '54px'}}></img>
+          {/* <img src="/logo.svg" style={{width: '48px', height: '54px'}}></img>
           {isPercentage? (<span style={{fontFamily: "Plus Jakarta Sans", fontWeight:700, fontSize:"16px", lineHeight: "20px"}} className="mt-2 text-white">{progress}%</span>) : ("") } */}
         </div>
       </div>

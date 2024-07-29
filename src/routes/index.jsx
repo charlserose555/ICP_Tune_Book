@@ -9,7 +9,9 @@ import { lazy } from "react";
 
 const Home = lazy(() => import("../pages/Home/Home"));
 const Login = lazy(() => import("../pages/LogIn/Login"));
-const Genres = lazy(() => import("../pages/Track/Tracks"));
+const Tunes = lazy(() => import("../pages/Home/Tunes"));
+const Playground = lazy(() => import("../pages/Home/Playground"));
+
 const Artist = lazy(() => import("../pages/Profile/Artist"));
 const Page404 = lazy(() => import("../pages/404"));
 const Blank = lazy(() => import("../pages/Blank"));
@@ -26,6 +28,20 @@ const routes = [
     component: Home,
   },
   {
+    path: "/tunes",
+    icon: "./home.svg",
+    name: "Home",
+    role: "user",
+    component: Tunes,
+  },
+  {
+    path: "/playground",
+    icon: "./home.svg",
+    name: "Home",
+    role: "user",
+    component: Playground,
+  },
+  {
     path: "/login",
     icon: "./home.svg",
     name: "Home",
@@ -40,24 +56,6 @@ const routes = [
     role: "user",
     component: Profile,
   },
-  {
-    path: "/manage",
-    icon: "ManageIcon",
-    name: "Manage",
-    auth: true,
-    role: "admin",
-    component: Manage,
-  },  
-  {
-    path: "/artist/id=:id",
-    role: "user",
-    component: Artist,
-  },
-  {
-    path: "/track/id=:id",
-    role: "user",
-    component: TrackDetail,
-  }
 ];
 
 export default routes;

@@ -41,7 +41,7 @@ function Layout() {
       className={`flex h-screen bg-green-450 w-full flex-row text-white`}>
       <div className="flex flex-col flex-1 w-full h-full overflow-y-auto y-scrollable-tag">
         <Main>
-          {/* <LoadingOverlay/> */}
+          <LoadingOverlay/>
           <Suspense fallback={<PageLoader />}>
             <Switch>
               {routes.map((route, i) => {

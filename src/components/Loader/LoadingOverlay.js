@@ -14,7 +14,7 @@ const LoadingOverlay = () => {
         <div className="flex justify-center items-center">        
           <CircularSpinner/>
           <div className="absolute items-center flex justify-center flex-col">
-            <img src="/logo.png" style={{width: '48px', height: '54px'}}></img>
+            <img src="/logo.svg" style={{width: '96px', height: '96px'}}></img>
           </div>
         </div>
       </div>

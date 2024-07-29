@@ -1,126 +1,129 @@
 import React, { useEffect, useRef, useState } from "react";
-
+import { HttpAgent, Actor } from '@dfinity/agent';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useDispatch, useSelector } from "../../store";
 import { AuthClient } from "@dfinity/auth-client";
 import loading from "../../utils/Loading.js";
+import { idlFactory } from '../../smart-contracts/backend.js';
+import { ShowModal } from "../../store/reducers/menu.js";
+import alert from "../../utils/Alert.js";
+import { convertToDataURL } from "../../utils/format.js";
+import { useDispatch } from '../../store';
+import { Login } from "../../store/reducers/auth.js";
 
-function Login() {
+function LoginLayout() {
   let authClient = null;
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {          
         loading();
 
         const authClient = await AuthClient.create();
-        const identity = authClient.getIdentity();
+        const identity = authClient.getIdentity().getPrincipal().toString();
         
-        console.log("principal", identity.getPrincipal().toText());
+        console.log("principal", process.env.REACT_APP_CANISTER_ID);
         
-        // let signResult = await signIn(identity.getPrincipal().toText());
-        // alert("success", "The login successful!");
-        
-        // let profileInfo = signResult.user;
+        const agent = new HttpAgent({ host: 'https://ic0.app' });
+        const actor = Actor.createActor(idlFactory, { agent,  canisterId: process.env.REACT_APP_CANISTER_ID });
 
-        // if(!profileInfo) {
-        //     let userInfo = {
-        //         principal: identity.getPrincipal().toText(),
-        //         displayname: "",
-        //         username: "",
-        //         avatar: "",
-        //         isInitialized: false,
-        //         fileType: "jpeg",
-        //         role: isAdmin(identity.getPrincipal().toText())? 'admin' : 'user',
-        //         createdAt : Number(Date.now() * 1000)
-        //     }
-                
-        //     dispatch(Login({userInfo : userInfo}));
-        //     alert("info", "Please create the profile");
-        //     dispatch(ShowModal("editProfile"))
-        // } else {
-        //     let userInfo = {
-        //         principal: identity.getPrincipal().toText(),
-        //         role: isAdmin(identity.getPrincipal().toText())? 'admin' : 'user',
-        //         displayname: profileInfo.displayname,
-        //         username: profileInfo.username,
-        //         avatar: `${BASE_URL}/` + profileInfo.avatar,
-        //         isInitialized: true,
-        //         fileType: "jpeg",
-        //         createdAt: Number(profileInfo.createdAt)
-        //     }
+        let authentication = await actor.authentication(identity);
 
-        //     console.log("userInfo", userInfo)
+        console.log("authentication", authentication)
 
-        //     dispatch(Login({userInfo : userInfo}));
-        // }
+        if(authentication.length == 0){ 
+          alert("info", "Please create the profile");
+          let userInfo = {
+              principal: identity,
+              username: "",
+              avatar: "",
+              isInitialized: false
+          }
 
+          dispatch(Login({userInfo : userInfo}));
+
+        } else{
+          let avatarUrl = '';
+          if(authentication[0].avatar) {
+              const chunks = [];
+              chunks.push(new Uint8Array(authentication[0].avatar).buffer);
+          
+              const blob = new Blob(chunks, {type : "image/jpeg"});
+
+              const result = await convertToDataURL(blob);
+
+              avatarUrl = result;    
+          }
+
+          let userInfo = {
+            principal: identity,
+            username: authentication[0].username,
+            avatar: avatarUrl,
+            isInitialized: true
+          }
+
+          dispatch(Login({userInfo : userInfo}));
+          alert("succesus", "The login successful!");
+        }
+
+        history.push("/app/profile");      
         loading(false);
     } catch (err) {
-        alert("danger", "Failure on log in");
-        loading(false);
+      console.log("Err", err);
+      alert("danger", "Failure on log in");
+      loading(false);
     }
-}
+  }
 
-const loginNFID = async() => {
-    authClient = await AuthClient.create();
-    if (!authClient) throw new Error("AuthClient not initialized");
-    
-    const APP_NAME = `${process.env.REACT_APP_SIGNIN_MESSAGE}`;
-    const APP_LOGO = "https://nfid.one/icons/favicon-96x96.png";
-    const CONFIG_QUERY = `?applicationName=${APP_NAME}&applicationLogo=${APP_LOGO}`;
-    
-    const identityProvider = `https://nfid.one/authenticate${CONFIG_QUERY}`;
+  const loginNFID = async() => {
+      authClient = await AuthClient.create();
+      if (!authClient) throw new Error("AuthClient not initialized");
+      
+      const APP_NAME = `${process.env.REACT_APP_SIGNIN_MESSAGE}`;
+      const APP_LOGO = "https://nfid.one/icons/favicon-96x96.png";
+      const CONFIG_QUERY = `?applicationName=${APP_NAME}&applicationLogo=${APP_LOGO}`;
+      
+      const identityProvider = `https://nfid.one/authenticate${CONFIG_QUERY}`;
 
-    authClient.login({
-        identityProvider,
-        derivationOrigin: "https://4ramb-vaaaa-aaaan-qmi2a-cai.ic0.app",
-        onSuccess: () => handleLogin(),
-        windowOpenerFeatures: `
-        left=${window.screen.width / 2 - 525 / 2},
-        top=${window.screen.height / 2 - 705 / 2},
-        toolbar=0,location=0,menubar=0,width=525,height=705
-        `,
-    });
-}
+      authClient.login({
+          identityProvider,
+          derivationOrigin: "https://4ramb-vaaaa-aaaan-qmi2a-cai.ic0.app",
+          onSuccess: () => handleLogin(),
+          windowOpenerFeatures: `
+          left=${window.screen.width / 2 - 525 / 2},
+          top=${window.screen.height / 2 - 705 / 2},
+          toolbar=0,location=0,menubar=0,width=525,height=705
+          `,
+      });
+  }
 
-const loginICP = async() => {
-    authClient = await AuthClient.create();
+  const loginICP = async() => {
+      authClient = await AuthClient.create();
 
-    if (!authClient) throw new Error("AuthClient not initialized");        
+      if (!authClient) throw new Error("AuthClient not initialized");        
 
-    await new Promise((resolve) => {
-        authClient.login({
-            identityProvider: "https://identity.ic0.app",
-            maxTimeToLive: 24 * 3_600_000_000_000,
-            onSuccess: resolve,
-        });
-    });
+      await new Promise((resolve) => {
+          authClient.login({
+              identityProvider: "https://identity.ic0.app",
+              maxTimeToLive: 24 * 3_600_000_000_000,
+              onSuccess: resolve,
+          });
+      });
 
-    handleLogin();
-}
-
+      handleLogin();
+  }
 
   return (
     <>
       <div className="flex flex-row py-8 font-plus px-10 relative w-full gap-8 text-darkblue-800 h-full">
         <div className="w-full h-full bg-white rounded-4 flex flex-col gap-4 p-8">
             <p className="font-bold">Log In</p>
-            <input className="py-2 pl-4 px-4 rounded-2 w-full font-normal focus:border-transparent focus:outline-none" placeholder="Username"  style={{
-                border: '1.5px solid #e5e7eb', // Set the border color to blue
-                height: '42px', // Adjust the font size as needed
-            }}/>
-
-            <input className="py-2 pl-4 px-4 rounded-2 w-full font-normal focus:border-transparent focus:outline-none" placeholder="Password" style={{
-                border: '1.5px solid #e5e7eb', // Set the border color to blue
-                height: '42px', // Adjust the font size as needed
-            }}/>
-
             <a className="fill-btn-secondary text-12 px-4 py-2 text-white font-medium bg-green-450 rounded-8 w-full flex flex-row justify-center gap-45 items-center"
-                style={{textAlign: 'center', cursor: 'pointer'}}>
+                style={{textAlign: 'center'}}>
                 <p className='text-white font-medium'> Log In</p>
             </a>
 
-            <div className="flex flex-row justify-between items-center gap-8 w-full px-4 py-2 z-30">
+            <div className="flex flex-row justify-between items-center gap-8 w-full py-2 z-30">
               <a className="outline-btn text-14 px-4 py-2 font-medium rounded-8 w-full" 
                   style={{border: '2px solid #34A853', textAlign: 'center', cursor: 'pointer'}}
                   onClick={(() => loginICP())}>
@@ -179,4 +182,4 @@ const loginICP = async() => {
   );
 }
 
-export default Login;
+export default LoginLayout;

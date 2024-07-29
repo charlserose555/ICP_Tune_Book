@@ -13,12 +13,8 @@ const initialCurrency = {
 
 const initialUser = {
     principal: '',
-    displayname: '',
     username: '',
-    role : '',
     avatar: '',
-    fileType: 'jpeg',
-    createdAt: 0,
     isInitialized: false,
 };
 
@@ -27,17 +23,15 @@ const initialState = {
     isLoggedIn: false,
     code: '',
     betsId: '',
-    token: '',
-    balance: 0,
-    balanceId: '',
-    currencyId: '',
+    headerTitle: 'Celtic Crossroads',
     principal: null,
     user: initialUser,
     identity: '',
     songListUpdated : 0,
-    currency: initialCurrency,
     adminAddress: '',
     nowpayMinAmount: 0,
+    orgTunes: [],
+    currentTune:  {}
 };
 
 const auth = createSlice({
@@ -111,10 +105,22 @@ const auth = createSlice({
 
         UpdateSongList(state, action) {
             state.songListUpdated = state.songListUpdated + 1;
+        },
+
+        SetTitle(state, action) {
+            state.headerTitle = action.payload;
+        },
+
+        SetOrgTunes(state, action) {
+            state.orgTunes = action.payload;
+        },
+
+        SetCurrentTune(state, action) {
+            state.currentTune = action.payload;
         }
     }
 });
 
 export default auth.reducer;
 
-export const { Login, Logout, SetIdentity, UpdateSongList, SetPrincipal, UpdateInfo, UpdateBalances, SetBalances, UpdateBalance, SetCode, SetBetsId, UpdateToken, SetNowpayMinAmount } = auth.actions;
+export const { Login, Logout, SetIdentity, UpdateSongList, SetPrincipal, UpdateInfo, UpdateBalances, SetTitle, SetOrgTunes, SetCurrentTune, SetBalances, UpdateBalance, SetCode, SetBetsId, UpdateToken, SetNowpayMinAmount } = auth.actions;

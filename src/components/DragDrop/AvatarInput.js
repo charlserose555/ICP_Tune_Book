@@ -84,7 +84,7 @@ export function AvatarInput({avatar, setAvatar}) {
         <>
         {/* Container Drop */}
         <div
-            className={`flex items-center justify-center mx-auto text-center mt-4 py-2 px-4 h-20`} style={{width:"400px"}}
+            className={`flex items-center justify-center mx-auto text-center mt-16 py-2 px-4 h-20`} style={{width:"400px"}}
             ref={dropContainer}
         >
             <div className="flex-1 flex flex-col">

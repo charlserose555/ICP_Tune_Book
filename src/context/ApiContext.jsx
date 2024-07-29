@@ -2,10 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../store";
 import { AuthClient, LocalStorage } from "@dfinity/auth-client";
 import { HttpAgent, Actor } from "@dfinity/agent";
-import {idlFactory as ManagerIDL} from '../smart-contracts/declarations/manager/manager.did.js';
-import {idlFactory as AccountIDL} from '../smart-contracts/declarations/account/account.did.js';
-import {idlFactory as ContentIDL} from '../smart-contracts/declarations/content/content.did.js';
-import {idlFactory as ContentManagerIDL} from '../smart-contracts/declarations/contentManager/contentManager.did.js';
 import axios from "../utils/Axios"
 import { useHistory } from 'react-router-dom';
 import { Logout, SetIdentity } from "../store/reducers/auth";
@@ -101,42 +97,42 @@ export const APIProvider = ({ children }) => {
     }
 
     const uploadProfile = async (profileInfo, userInfo) => {   
-        let { agent } = await initAgent();
+        // let { agent } = await initAgent();
         
-        if (agent == null) 
-            return null;
+        // if (agent == null) 
+        //     return null;
         
-        let accountActor = Actor.createActor(AccountIDL, {
-            agent,
-            canisterId: process.env.REACT_APP_DFX_NETWORK != "ic"? process.env.REACT_APP_MANAGER_CANISTER_ID : process.env.REACT_APP_IC_MANAGER_CANISTER_ID
-        });
+        // let accountActor = Actor.createActor(AccountIDL, {
+        //     agent,
+        //     canisterId: process.env.REACT_APP_DFX_NETWORK != "ic"? process.env.REACT_APP_MANAGER_CANISTER_ID : process.env.REACT_APP_IC_MANAGER_CANISTER_ID
+        // });
         
-        console.log("profileInfo", userInfo);
+        // console.log("profileInfo", userInfo);
 
-        let result = await Promise.all([accountActor.editProfileInfo(profileInfo), 
-            axios.post("api/v/users/uploadProfile", {
-            ...userInfo})
-        ]);
+        // let result = await Promise.all([accountActor.editProfileInfo(profileInfo), 
+        //     axios.post("api/v/users/uploadProfile", {
+        //     ...userInfo})
+        // ]);
 
-        console.log(result);
+        // console.log(result);
 
-        return result;
+        // return result;
     }
     
     const createContentInfo = async (contentInfo) => {
-        let {agent} = await initAgent();
+        // let {agent} = await initAgent();
         
-        if (agent == null) 
-            return null;
+        // if (agent == null) 
+        //     return null;
 
-        let contentManagerActor = Actor.createActor(ContentManagerIDL, {
-            agent,
-            canisterId: process.env.REACT_APP_DFX_NETWORK != "ic"? process.env.REACT_APP_CONTENT_MANAGER_CANISTER_ID : process.env.REACT_APP_IC_CONTENT_MANAGER_CANISTER_ID
-        });
+        // let contentManagerActor = Actor.createActor(ContentManagerIDL, {
+        //     agent,
+        //     canisterId: process.env.REACT_APP_DFX_NETWORK != "ic"? process.env.REACT_APP_CONTENT_MANAGER_CANISTER_ID : process.env.REACT_APP_IC_CONTENT_MANAGER_CANISTER_ID
+        // });
 
-        let result = await contentManagerActor.createContent(contentInfo);
+        // let result = await contentManagerActor.createContent(contentInfo);
 
-        return result;
+        // return result;
     }
 
     const uploadTrackInfo = async (trackInfo) => {
@@ -166,35 +162,35 @@ export const APIProvider = ({ children }) => {
     const processAndUploadChunk = async (
         audioInfo, contentCanisterId, contentId
     )  => {
-        const t0 = performance.now();
+        // const t0 = performance.now();
 
-        let { agent } = await initAgent();
+        // let { agent } = await initAgent();
         
-        if (agent == null) 
-            return null;
+        // if (agent == null) 
+        //     return null;
 
-        let putChunkPromises = [];
+        // let putChunkPromises = [];
 
-        let contentActor = Actor.createActor(ContentIDL, {
-            agent,
-            canisterId: contentCanisterId
-        });
+        // let contentActor = Actor.createActor(ContentIDL, {
+        //     agent,
+        //     canisterId: contentCanisterId
+        // });
 
-        let chunk = 1;
-        for (let byteStart = 0; byteStart < audioInfo.size; byteStart += MAX_CHUNK_SIZE, chunk++ ) {
-            putChunkPromises.push(
-                putContentChunk(audioInfo.data, byteStart, contentId, contentCanisterId, chunk, audioInfo.size, contentActor)
-            );
-        }
+        // let chunk = 1;
+        // for (let byteStart = 0; byteStart < audioInfo.size; byteStart += MAX_CHUNK_SIZE, chunk++ ) {
+        //     putChunkPromises.push(
+        //         putContentChunk(audioInfo.data, byteStart, contentId, contentCanisterId, chunk, audioInfo.size, contentActor)
+        //     );
+        // }
 
-        let result = await Promise.all(putChunkPromises)
+        // let result = await Promise.all(putChunkPromises)
 
-        console.log("result", result)
+        // console.log("result", result)
 
-        const t1 = performance.now();
-        console.log("Upload took " + (t1 - t0) / 1000 + " seconds.")
+        // const t1 = performance.now();
+        // console.log("Upload took " + (t1 - t0) / 1000 + " seconds.")
 
-        return null;
+        // return null;
     }
 
     const putContentChunk = async (blob,

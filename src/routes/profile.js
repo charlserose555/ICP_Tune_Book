@@ -8,31 +8,14 @@
 import { lazy } from "react";
 
 
-const myTracks = lazy(() => import("../pages/Profile/MyTracks"));
-const favoriteTracks = lazy(() => import("../pages/Profile/FavouriteTrack"));
-const Upload = lazy(() => import("../pages/Profile/Upload"));
+const profile = lazy(() => import("../pages/Profile/Profile"));
 
 const routes = [
   {
     path: "/",
     auth: true,
-    component: myTracks,
-  },,
-  {
-    path: "/tracks",
-    auth: true,
-    component: myTracks,
-  },
-  {
-    path: "/favorite",
-    auth: true,
-    component: favoriteTracks,
-  },
-  {
-    path: "/upload",
-    auth: true,
-    component: Upload,
-  },
+    component: profile,
+  }
 ];
 
 export default routes;

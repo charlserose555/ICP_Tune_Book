@@ -12,7 +12,7 @@
   background: transparent;
 }
 .circle-svg circle {
-  stroke: #0060D9;
+  stroke: #34A853;
   stroke-width: 8;
   fill: transparent;
   transform-origin: center;
@@ -24,7 +24,7 @@
   background: transparent;
 }
 .sm-circle-svg circle {
-  stroke: #0060D9;
+  stroke: #34A853;
   stroke-width: 2;
   fill: transparent;
   transform-origin: center;
@@ -36,7 +36,7 @@
   background: transparent;
 }
 .md-circle-svg circle {
-  stroke: #0060D9;
+  stroke: #34A853;
   stroke-width: 3;
   fill: transparent;
   transform-origin: center;
@@ -47,12 +47,12 @@
 @keyframes spinner {
   from {
     stroke-dashoffset: var(--circumference);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(0deg)
   }
   to {
     stroke-dashoffset: calc(var(--circumference) * -1);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(720deg)
   }
 }
@@ -60,12 +60,12 @@
 @keyframes sm-spinner {
   from {
     stroke-dashoffset: var(--sm-circumference);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(0deg)
   }
   to {
     stroke-dashoffset: calc(var(--sm-circumference) * -1);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(720deg)
   }
 }
@@ -73,12 +73,12 @@
 @keyframes md-spinner {
   from {
     stroke-dashoffset: var(--md-circumference);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(0deg)
   }
   to {
     stroke-dashoffset: calc(var(--md-circumference) * -1);
-    stroke: #0060D9;
+    stroke: #34A853;
     transform: rotateZ(720deg)
   }
 }

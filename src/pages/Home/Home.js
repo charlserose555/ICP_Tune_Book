@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import TrackSide from "./TrackSlide";
-import PopularTracks from "./NewTracks";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "../../store";
 

@@ -13,7 +13,7 @@
 }
 
 .y-scrollable-tag::-webkit-scrollbar-thumb {
-    background: #282733; /* Set scrollbar thumb color */
+    background: #c9c9c9; /* Set scrollbar thumb color */
     border-radius: 2px; /* Apply rounded corners */
 }
 
@@ -27,7 +27,7 @@
 }
 
 .x-scrollable-tag::-webkit-scrollbar-thumb {
-    background: #282733; /* Set scrollbar thumb color */
+    background: #c9c9c9; /* Set scrollbar thumb color */
     border-radius: 2px; /* Apply rounded corners */
 }
 
@@ -129,8 +129,8 @@
     transition: .5s all ease;
 }
 .fill-btn-primary:hover {
-    box-shadow: 0px 5px 10px 0px rgba(6, 116, 252, 0.45) !important;
-    background-color: rgb(6, 96, 217);
+    box-shadow: 0px 5px 10px 0px rgba(100, 255, 53, 0.45) !important;
+    background-color: rgb(68, 190, 37);
 }
 .fill-btn-second {
     transition: .5s all ease;
