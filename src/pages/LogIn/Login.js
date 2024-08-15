@@ -17,6 +17,8 @@ function LoginLayout() {
 
   const handleLogin = async () => {
     try {          
+        console.log("Aadfsdfsfd");
+
         loading();
 
         const authClient = await AuthClient.create();
@@ -37,6 +39,8 @@ function LoginLayout() {
               principal: identity,
               username: "",
               avatar: "",
+              placeOfBirth: "",
+              instruments: [],
               isInitialized: false
           }
 
@@ -59,6 +63,8 @@ function LoginLayout() {
             principal: identity,
             username: authentication[0].username,
             avatar: avatarUrl,
+            placeOfBirth: authentication[0]?.placeOfBirth,
+            instruments: authentication[0]?.instruments?.slice(","),
             isInitialized: true
           }
 
@@ -175,7 +181,6 @@ function LoginLayout() {
               }}/>
             <p className="font-plus-bold text-20">Tune Title 4</p>
           </div>
-          <p className="font-plus-bold text-20">Sessons Near You</p>
         </div>
       </div>
     </>

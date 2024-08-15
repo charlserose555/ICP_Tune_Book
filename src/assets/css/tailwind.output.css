@@ -815,6 +815,14 @@ select {
   top: 4rem;
 }
 
+.top-3 {
+  top: 0.75rem;
+}
+
+.top-5 {
+  top: 1.25rem;
+}
+
 .top-6 {
   top: 1.5rem;
 }
@@ -859,6 +867,10 @@ select {
   order: 2;
 }
 
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+
 .m-1 {
   margin: 0.25rem;
 }
@@ -870,6 +882,11 @@ select {
 .-mx-6 {
   margin-left: -1.5rem;
   margin-right: -1.5rem;
+}
+
+.mx-\[10px\] {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .mx-auto {
@@ -908,6 +925,10 @@ select {
 
 .mb-6 {
   margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
 }
 
 .mb-\[10px\] {
@@ -966,10 +987,6 @@ select {
   margin-top: 1.5rem;
 }
 
-.ml-3 {
-  margin-left: 0.75rem;
-}
-
 .block {
   display: block;
 }
@@ -1008,6 +1025,10 @@ select {
 
 .h-10 {
   height: 2.5rem;
+}
+
+.h-12 {
+  height: 3rem;
 }
 
 .h-16 {
@@ -1126,6 +1147,10 @@ select {
   width: 2.5rem;
 }
 
+.w-12 {
+  width: 3rem;
+}
+
 .w-16 {
   width: 4rem;
 }
@@ -1192,6 +1217,10 @@ select {
 
 .w-\[140px\] {
   width: 140px;
+}
+
+.w-\[144px\] {
+  width: 144px;
 }
 
 .w-\[14px\] {
@@ -1266,6 +1295,10 @@ select {
   min-width: 24px;
 }
 
+.min-w-\[385px\] {
+  min-width: 385px;
+}
+
 .min-w-\[610px\] {
   min-width: 610px;
 }
@@ -1276,6 +1309,10 @@ select {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.flex-none {
+  flex: none;
 }
 
 .flex-shrink-0 {
@@ -1366,6 +1403,10 @@ select {
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .items-start {
   align-items: flex-start;
 }
@@ -1398,8 +1439,20 @@ select {
   justify-content: space-around;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .gap-1 {
   gap: 0.25rem;
+}
+
+.gap-12 {
+  gap: 3rem;
+}
+
+.gap-16 {
+  gap: 4rem;
 }
 
 .gap-2 {
@@ -1438,6 +1491,10 @@ select {
   gap: 20px;
 }
 
+.gap-\[24px\] {
+  gap: 24px;
+}
+
 .gap-\[30px\] {
   gap: 30px;
 }
@@ -1470,6 +1527,18 @@ select {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.25rem * var(--tw-space-x-reverse));
   margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1545,6 +1614,10 @@ select {
 
 .rounded-\[16px\] {
   border-radius: 16px;
+}
+
+.rounded-\[20px\] {
+  border-radius: 20px;
 }
 
 .rounded-full {
@@ -1981,12 +2054,25 @@ select {
   padding-bottom: 2rem;
 }
 
+.py-\[58px\] {
+  padding-top: 58px;
+  padding-bottom: 58px;
+}
+
 .pb-5 {
   padding-bottom: 1.25rem;
 }
 
 .pb-8 {
   padding-bottom: 2rem;
+}
+
+.pb-\[10px\] {
+  padding-bottom: 10px;
+}
+
+.pb-\[120px\] {
+  padding-bottom: 120px;
 }
 
 .pl-12 {
@@ -2025,6 +2111,10 @@ select {
   padding-right: 1.5rem;
 }
 
+.pt-1 {
+  padding-top: 0.25rem;
+}
+
 .pt-12 {
   padding-top: 3rem;
 }
@@ -2049,6 +2139,10 @@ select {
   padding-top: 1.5rem;
 }
 
+.pt-\[10px\] {
+  padding-top: 10px;
+}
+
 .pt-\[150px\] {
   padding-top: 150px;
 }
@@ -2059,6 +2153,14 @@ select {
 
 .pt-\[58px\] {
   padding-top: 58px;
+}
+
+.pt-\[6px\] {
+  padding-top: 6px;
+}
+
+.pt-\[70px\] {
+  padding-top: 70px;
 }
 
 .text-left {
@@ -2073,16 +2175,20 @@ select {
   text-align: start;
 }
 
+.align-middle {
+  vertical-align: middle;
+}
+
 .align-bottom {
   vertical-align: bottom;
 }
 
 .font-plus {
-  font-family: Plus Jakarta Sans, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Roboto normal, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .font-plus-bold {
-  font-family: Plus Jakarta Sans Bold, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Roboto bold, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .text-10 {
@@ -2212,6 +2318,10 @@ select {
 
 .leading-\[19px\] {
   line-height: 19px;
+}
+
+.leading-\[20px\] {
+  line-height: 20px;
 }
 
 .leading-\[30px\] {
@@ -2458,7 +2568,7 @@ select {
 }
 
 .shadow-bottom_1 {
-  --tw-shadow: 0px 0px 30px rgba(6, 116, 252, 0.35);
+  --tw-shadow: 0px 0px 30px rgba(74, 74, 74, 0.35);
   --tw-shadow-colored: 0px 0px 30px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -2478,6 +2588,12 @@ select {
 .shadow-md {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -2574,6 +2690,10 @@ select {
 
 .duration-200 {
   transition-duration: 200ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
 }
 
 .duration-500 {
@@ -2816,6 +2936,11 @@ select {
   color: rgb(0 79 208 / var(--tw-text-opacity));
 }
 
+.hover\:text-darkblue-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(0 63 179 / var(--tw-text-opacity));
+}
+
 .hover\:text-gray-300:hover {
   --tw-text-opacity: 1;
   color: rgb(213 214 215 / var(--tw-text-opacity));
@@ -2853,7 +2978,7 @@ select {
 }
 
 .hover\:shadow-bottom_1:hover {
-  --tw-shadow: 0px 0px 30px rgba(6, 116, 252, 0.35);
+  --tw-shadow: 0px 0px 30px rgba(74, 74, 74, 0.35);
   --tw-shadow-colored: 0px 0px 30px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -2958,6 +3083,11 @@ select {
 .active\:text-gray-500:active {
   --tw-text-opacity: 1;
   color: rgb(112 114 117 / var(--tw-text-opacity));
+}
+
+.group:hover .group-hover\:-translate-y-\[160px\] {
+  --tw-translate-y: -160px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .group:hover .group-hover\:text-darkblue-500 {
@@ -3287,6 +3417,10 @@ select {
     order: 2;
   }
 
+  .md\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .md\:block {
     display: block;
   }
@@ -3303,12 +3437,20 @@ select {
     width: 80px;
   }
 
+  .md\:grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .md\:flex-row {
     flex-direction: row;
+  }
+
+  .md\:gap-4 {
+    gap: 1rem;
   }
 
   .md\:gap-\[10px\] {
@@ -3333,6 +3475,11 @@ select {
     padding-right: 1rem;
   }
 
+  .md\:px-\[10px\] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .md\:px-\[30px\] {
     padding-left: 30px;
     padding-right: 30px;
@@ -3345,6 +3492,10 @@ select {
 
   .md\:pl-4 {
     padding-left: 1rem;
+  }
+
+  .md\:pt-\[10px\] {
+    padding-top: 10px;
   }
 
   .md\:text-\[40px\] {
@@ -3371,6 +3522,24 @@ select {
 
   .lg\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
+  .xl\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .xl\:pt-\[80px\] {
+    padding-top: 80px;
   }
 }
 

@@ -9,6 +9,8 @@ import { HttpAgent, Actor } from '@dfinity/agent';
 import { base64ToBlob, convertToDataURL, getBinaryFileSizeFromBase64 } from "../../utils/format.js";
 import alert from "../../utils/Alert.js";
 import { UpdateInfo } from '../../store/reducers/auth.js';
+import Select from "react-tailwindcss-select";
+import { instruments } from "../../const/variable.js";
 
 function Profile() {
   const history = useHistory();
@@ -16,6 +18,9 @@ function Profile() {
   const {user} = useSelector((state) => (state.auth));
   const [avatarData, setAvatarData] = useState("");
   const [username, setUsername] = useState("");
+  const [placeOfBirth, setPlaceOfBirth] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [instrument, setInstrument] = useState([]);
 
   const { isLoggedIn } = useSelector(
     (state) => state.auth
@@ -23,78 +28,102 @@ function Profile() {
 
   const handleAvatar = async (image) => {   
     setAvatarData(image);
-}
+  }
+
+  const goBack = async() => {
+    history.goBack();
+  }
 
   const saveProfile = async () => {
     try{
-        if(!username || !avatarData) {
-          alert("warning", "Please input profile info")
-        } else {            
-          loading();
+      if(!username || !avatarData || instrument.length == 0 || !placeOfBirth) {
+        alert("warning", "Please input profile info exactly")
+      } else {            
+        loading();
 
-          if(getBinaryFileSizeFromBase64(avatarData) > 512000) {
-              loading(false);
+        if(getBinaryFileSizeFromBase64(avatarData) > 512000) {
+            loading(false);
 
-              alert('info', "File size shouldn't be bigger than 500Kb");
+            alert('info', "File size shouldn't be bigger than 500Kb");
 
-              return;
-          }  
-          
-          let matches = avatarData.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,/);
-          
-          let avatarImage = avatarData.replace(/^data:(.*,)?/, '');
-          if ((avatarImage.length % 4) > 0) {
-              avatarImage += '='.repeat(4 - (avatarImage.length % 4));
-          }
-          
-          const imageBlob = base64ToBlob(avatarImage, matches[1]);
-          
-          let bsf = await imageBlob.arrayBuffer();     
-          
-          const byteArray= new Uint8Array(bsf);
-
-          const agent = new HttpAgent({ host: 'https://ic0.app' });
-          const actor = Actor.createActor(idlFactory, { agent,  canisterId: process.env.REACT_APP_CANISTER_ID });
-  
-          await actor.update_profile(user.principal, user.username, byteArray);
-          let avatarUrl = '';
-
-          const chunks = [];
-          chunks.push(new Uint8Array(byteArray).buffer);
-      
-          const blob = new Blob(chunks, {type : "image/jpeg"});
-
-          const result = await convertToDataURL(blob);
-
-          avatarUrl = result;    
-
-          let userInfo = {
-            username: username,
-            avatar:avatarUrl,
-            isInitialized: true
-          }
-            
-          alert('success', "Success on updating profile")
-          dispatch(UpdateInfo({userInfo : userInfo}));    
-          loading(false)
+            return;
+        }  
+        
+        let matches = avatarData.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,/);
+        
+        let avatarImage = avatarData.replace(/^data:(.*,)?/, '');
+        if ((avatarImage.length % 4) > 0) {
+            avatarImage += '='.repeat(4 - (avatarImage.length % 4));
         }
+        
+        const imageBlob = base64ToBlob(avatarImage, matches[1]);
+        
+        let bsf = await imageBlob.arrayBuffer();     
+        
+        const byteArray= new Uint8Array(bsf);
+
+        const agent = new HttpAgent({ host: 'https://ic0.app' });
+        const actor = Actor.createActor(idlFactory, { agent,  canisterId: process.env.REACT_APP_CANISTER_ID });
+
+        await actor.update_profile(user.principal, username, placeOfBirth, instrument.map(value => value.value).join(", "), byteArray);
+        let avatarUrl = '';
+
+        const chunks = [];
+        chunks.push(new Uint8Array(byteArray).buffer);
+    
+        const blob = new Blob(chunks, {type : "image/jpeg"});
+
+        const result = await convertToDataURL(blob);
+
+        avatarUrl = result;    
+
+        let userInfo = {
+          username: username,
+          avatar:avatarUrl,
+          instruments: instrument.map(value => value.value).join(", "),
+          placeOfBirth: placeOfBirth,
+          isInitialized: true
+        }
+          
+        alert('success', "Success on updating profile")
+        dispatch(UpdateInfo({userInfo : userInfo}));    
+        loading(false)
+      }
     } catch (err) {
-        console.log(err.message);
-        loading(false);
-        alert('warning', "failure on updating profile")
+      console.log(err.message);
+      loading(false);
+      alert('warning', "failure on updating profile")
     }
   }
   
   useEffect(() => {
+    setUsername(user.username);
+    setAvatarData(user.avatar);
+    setPlaceOfBirth(user.placeOfBirth);
+
+    const items = user.instruments.split(',').map(item => item.trim());
+
+    console.log("items", items);
+
+    // Map each item to an object with value and label
+    const resultArray = items.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    console.log("resultArray", resultArray);
+
+
+    setInstrument(resultArray);
     console.log("user", user)
   }, [user])
 
   return (
     <>
-      <div className="flex flex-row py-8 font-plus px-10 relative w-full gap-8 text-darkblue-800 h-full">
+      <div className="flex font-plus flex-row py-8 font-plus px-10 gap-8 text-darkblue-800 h-full">
         <div className="w-full h-full bg-white rounded-4 flex flex-row py-8 px-16">
             <div className="w-full h-full flex flex-col gap-4">
-                {!user.username && 
+             {(!user.username || isEdit) && 
                 (<>
                  <p className=" font-plus font-bold text-18 leading-22">Profile details</p>
                   <div className="flex flex-col justify-center items-center w-full">
@@ -102,20 +131,45 @@ function Profile() {
                           <AvatarInput avatar={user.avatar} setAvatar={handleAvatar}/>
                       </div>                                
                   </div>
-                  <div className="relative flex flex-col justify-start w-full gap-[5px]">
+                  <div className="flex flex-col justify-start w-full gap-[5px]">
                       <div className="flex flex-row justify-start items-center">
-                          <p className="font-plus font-light text-14 leading-20">User name</p>
+                          <p className="font-plus font-normal text-14 leading-20">User name</p>
                           <p className="text-14 text-coral-500">*</p>
                       </div>
 
-                      <input className="py-2 pl-4 px-4 rounded-2 w-full font-normal focus:border-transparent focus:outline-none" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}  style={{
+                      <input className="py-2 pl-4 px-4 rounded-2 w-full font-light focus:border-transparent focus:outline-none" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}  style={{
                           border: '1.5px solid #e5e7eb', // Set the border color to blue
                           height: '42px', // Adjust the font size as needed
                       }}/>
                   </div>
-                  <div className="relative flex flex-col justify-start w-full gap-[5px]">
+                  <div className="flex flex-col justify-start w-full gap-[5px]">
                       <div className="flex flex-row justify-start items-center">
-                          <p className="font-plus  font-light text-14 leading-20">Principal</p>
+                          <p className="font-plus font-normal text-14 leading-20">Place of Birth</p>
+                          <p className="text-14 text-coral-500">*</p>
+                      </div>
+
+                      <input className="py-2 pl-4 px-4 font-light rounded-2 w-full font-light focus:border-transparent focus:outline-none font-bold" placeholder="Place of birth" value={placeOfBirth} onChange={(e) => setPlaceOfBirth(e.target.value)}  style={{
+                          border: '1.5px solid #e5e7eb', // Set the border color to blue
+                          height: '42px', // Adjust the font size as needed
+                      }}/>
+                  </div>
+                  <div className="flex flex-col justify-start w-full gap-[5px]">
+                      <div className="flex flex-row justify-start items-center">
+                          <p className="font-plus font-normal text-14 leading-20">Instruments</p>
+                          <p className="text-14 text-coral-500">*</p>
+                      </div>
+
+                      <Select
+                          isMultiple={true}
+                          placeholder="Select Instruments..."
+                          value={instrument}
+                          onChange={(value) => setInstrument(value)}
+                          options={instruments}
+                      />
+                  </div>
+                  <div className="flex flex-col justify-start w-full gap-[5px]">
+                      <div className="flex flex-row justify-start items-center">
+                          <p className="font-plus  font-normal text-14 leading-20">Principal</p>
                           <p className="text-14 text-coral-500">*</p>
                       </div>
 
@@ -130,18 +184,25 @@ function Profile() {
                           <img className="" src="/demo/assets/save.svg"/>
                           <p className='font-medium'>Save</p>
                       </a>
+                      {(user.username) && (
+                        <a className="fill-btn-primary text-white text-12 px-4 py-2 font-medium bg-green-450 rounded-8 w-full flex flex-row justify-center gap-45 items-center" onClick={() => setIsEdit(false)}
+                            style={{textAlign: 'center', cursor: 'pointer'}}>
+                            <p className='font-medium'>Back</p>
+                        </a>
+                      )}
                   </div>
                 </>)}
-                {user.username && (<>
+
+                {(user.username && !isEdit) && (<>
                   <div className="w-full flex flex-row justify-start items-center gap-6">
-                    <img className="rounded-[120px] w-40 h-40" src="/demo/assets/artist_profile.png"
+                    <img className="rounded-[120px] w-40 h-40" src={avatarData}
                       style={{
                         border: '3px solid #faca15'
                       }}/>
                       <div className="flex flex-col justify-start items-start">
-                        <p className="font-plus-bold text-24">John O'Connor</p>
-                        <p className="font-plus text-16 font-bold">Dublin, Ireland</p>
-                        <p className="font-plus text-16 font-bold">Instruments: Fiddle, Tin Whistle</p>
+                        <p className="font-plus-bold text-24">{user.username}</p>
+                        <p className="font-plus text-16 font-bold">{user.placeOfBirth}</p>
+                        <p className="font-plus text-16 font-bold">Instruments: {instrument.map(value => value.value).join(", ")}</p>
                       </div>
                   </div>
                   <div className="w-full flex flex-row gap-4">
@@ -152,6 +213,11 @@ function Profile() {
                       <a className="fill-btn-secondary text-12 w-36 px-4 py-2 text-white font-medium bg-green-450 rounded-8 flex flex-row justify-center gap-45 items-center"
                           style={{textAlign: 'center', cursor: 'pointer'}}>
                           <p className='text-white font-bold'> Tunebook</p>
+                      </a>
+                      <a className="fill-btn-secondary text-12 w-36 px-4 py-2 text-white font-medium bg-green-450 rounded-8 flex flex-row justify-center gap-45 items-center"
+                          style={{textAlign: 'center', cursor: 'pointer'}}
+                          onClick={() => {setIsEdit(true)}}>
+                          <p className='text-white font-bold'> Edit Profile</p>
                       </a>
                   </div>
                 </>)}

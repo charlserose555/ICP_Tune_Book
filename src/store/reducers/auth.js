@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import _ from "lodash";
+import { instruments } from '../../const/variable';
 
 const initialCurrency = {
     _id: '',
@@ -15,6 +16,8 @@ const initialUser = {
     principal: '',
     username: '',
     avatar: '',
+    instruments: '',
+    placeOfBirth: '',
     isInitialized: false,
 };
 

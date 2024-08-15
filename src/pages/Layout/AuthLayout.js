@@ -1,5 +1,5 @@
 import { useSelector } from "../../store";
-import {auth} from "../../routes";
+import {auth} from "../routes";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
 const AuthLayout = () => {

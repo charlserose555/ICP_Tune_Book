@@ -1,31 +1,74 @@
 export const idlFactory = ({ IDL }) => {
-    const Profile = IDL.Record({
-      'principal' : IDL.Text,
-      'username' : IDL.Text,
-      'avatar' : IDL.Vec(IDL.Nat8),
-    });
-    return IDL.Service({
-      'add_tune' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [IDL.Bool], []),
-      'authentication' : IDL.Func([IDL.Text], [IDL.Opt(Profile)], ['query']),
-      'get_original_tune' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
-      'get_original_tune_list' : IDL.Func(
-          [IDL.Nat64],
-          [IDL.Vec(IDL.Text)],
-          ['query'],
-        ),
-      'get_user_tune' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], ['query']),
-      'get_user_tune_list' : IDL.Func(
-          [IDL.Text, IDL.Nat64],
-          [IDL.Vec(IDL.Text)],
-          ['query'],
-        ),
-      'init' : IDL.Func([], [], []),
-      'update_profile' : IDL.Func(
-          [IDL.Text, IDL.Text, IDL.Vec(IDL.Nat8)],
-          [Profile],
-          [],
-        ),
-    });
-  };
-  export const init = ({ IDL }) => { return []; };
-  
+  const Friend = IDL.Record({
+    'principal' : IDL.Text,
+    'username' : IDL.Text,
+    'avatar' : IDL.Vec(IDL.Nat8),
+  });
+  const Profile = IDL.Record({
+    'pob' : IDL.Text,
+    'principal' : IDL.Text,
+    'username' : IDL.Text,
+    'incoming_fr' : IDL.Vec(Friend),
+    'outcoming_fr' : IDL.Vec(Friend),
+    'instruments' : IDL.Text,
+    'friends' : IDL.Vec(IDL.Text),
+    'avatar' : IDL.Vec(IDL.Nat8),
+  });
+  const OriginTune = IDL.Record({ 'title' : IDL.Text, 'tune_data' : IDL.Text });
+  const Tune = IDL.Record({
+    'title' : IDL.Text,
+    'thumbnail' : IDL.Vec(IDL.Nat8),
+    'origin' : IDL.Bool,
+    'timestamp' : IDL.Nat64,
+    'tune_data' : IDL.Opt(IDL.Text),
+  });
+  return IDL.Service({
+    'accept_friend_request' : IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
+    'add_tune' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Bool, IDL.Vec(IDL.Nat8)],
+        [IDL.Bool],
+        [],
+      ),
+    'authentication' : IDL.Func([IDL.Text], [IDL.Opt(Profile)], ['query']),
+    'browse_people' : IDL.Func(
+        [IDL.Text, IDL.Int32],
+        [IDL.Vec(Friend)],
+        ['query'],
+      ),
+    'filter_tunes' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Int32],
+        [IDL.Vec(OriginTune)],
+        ['query'],
+      ),
+    'get_friends' : IDL.Func([IDL.Text], [IDL.Vec(Friend)], ['query']),
+    'get_new_tunes_from_friends' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Tune)],
+        ['query'],
+      ),
+    'get_original_tune' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
+    'get_original_tune_list' : IDL.Func(
+        [IDL.Int32],
+        [IDL.Vec(IDL.Text)],
+        ['query'],
+      ),
+    'get_user_tune' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], ['query']),
+    'get_user_tune_list' : IDL.Func(
+        [IDL.Text, IDL.Int32],
+        [IDL.Vec(IDL.Text)],
+        ['query'],
+      ),
+    'init' : IDL.Func([], [], []),
+    'send_friend_request' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Opt(Friend)],
+        [],
+      ),
+    'update_profile' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Vec(IDL.Nat8)],
+        [Profile],
+        [],
+      ),
+  });
+};
+export const init = ({ IDL }) => { return []; };

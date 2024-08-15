@@ -8,13 +8,16 @@ module.exports = windmill({
   theme: {
     extend: {
       fontFamily: {
-        'plus': ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
-        'plus-bold': ['Plus Jakarta Sans Bold', ...defaultTheme.fontFamily.sans],
+        'plus':  ['Roboto normal', ...defaultTheme.fontFamily.sans],
+        'plus-bold': ['Roboto bold', ...defaultTheme.fontFamily.sans],
+        'roboto': ['Roboto normal', ...defaultTheme.fontFamily.sans],
+        'roboto-medium': ['Roboto medium', ...defaultTheme.fontFamily.sans],
+        'roboto-bold': ['Roboto bold', ...defaultTheme.fontFamily.sans]
       },
       boxShadow: {
         bottom:
           "0 5px 6px -7px rgba(0, 0, 0, 0.6), 0 2px 4px -5px rgba(0, 0, 0, 0.06)",
-          "bottom_1": "0px 0px 30px rgba(6, 116, 252, 0.35)",
+          "bottom_1": "0px 0px 30px rgba(74, 74, 74, 0.35)",
           "drop_1" : "0 0 15px rgba(6, 116, 252, 0.2)"
       },
       width: {
@@ -65,7 +68,6 @@ module.exports = windmill({
         semibold: '600',
         bold: '700',
         extrabold: '800',
-        'extra-bold': '800',
         black: '900',
       },
       lineHeight: {
@@ -194,6 +196,7 @@ module.exports = windmill({
     },
   },
   plugins: [require('tailwindcss')({ watch: true })],
-  content: ["./node_modules/flowbite/**/*{.js, jsx}", "src/**/*.{js, jsx}"],
-});
+  content: ["./node_modules/flowbite/**/*{.js, jsx}", "src/**/*.{js, jsx}", 
+    "./node_modules/react-tailwindcss-select/dist/index.esm.js",
+  "./node_modules/tailwind-datepicker-react/dist/**/*.js"]});
 
