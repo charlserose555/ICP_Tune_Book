@@ -53,10 +53,15 @@ function Header() {
             <p className="text-darkblue-800 text-[20px]">{title}</p>
         </div>
         <div className="flex flex-row justify-end items-center gap-3">
-            <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer" onClick={() => {history.push("/app/tunes")}}>Browse Tunes</p>
-            {/* <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer">Browse People</p> */}
-            <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer">Sessions</p>
+          {auth.isLoggedIn && (
+            <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer" onClick={() => {history.push("/app/profile")}}>Profile</p> 
+          )}
+          <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer" onClick={() => {history.push("/app/tunes")}}>Browse Tunes</p>
+          {/* <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer">Browse People</p> */}
+          <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer">Sessions</p>
+          {auth.isLoggedIn && (
             <p className="text-darkblue-800 text-[16px] font-bold cursor-pointer" onClick={() => {logout()}}>Log out</p>
+          )}
         </div>
       </div>
     </>

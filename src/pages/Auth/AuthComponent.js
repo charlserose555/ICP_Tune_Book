@@ -60,6 +60,7 @@ function AuthComponent({width, height}) {
                     username: "",
                     avatar: "",
                     isInitialized: false,
+                    isLoggedIn: true,
                     fileType: "jpeg",
                     role: isAdmin(identity.getPrincipal().toText())? 'admin' : 'user',
                     createdAt : Number(Date.now() * 1000)
@@ -76,6 +77,7 @@ function AuthComponent({width, height}) {
                     username: profileInfo.username,
                     avatar: `${BASE_URL}/` + profileInfo.avatar,
                     isInitialized: true,
+                    isLoggedIn: true,
                     fileType: "jpeg",
                     createdAt: Number(profileInfo.createdAt)
                 }

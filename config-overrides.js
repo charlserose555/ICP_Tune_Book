@@ -16,7 +16,7 @@ module.exports = function override(config, env) {
         zlib: require.resolve('browserify-zlib'),
         crypto: require.resolve("crypto-browserify"),
         "buffer": require.resolve("buffer/"),
-        'process/browser': require.resolve('process/browser')
+        'process/browser': require.resolve('process/browser'),
     };
 
     config.plugins.push(
@@ -25,6 +25,14 @@ module.exports = function override(config, env) {
             Buffer: ['buffer', 'Buffer']
         })
     );
+
+    config.plugins.push(
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    );
+
     config.ignoreWarnings = [/Failed to parse source map/];
 
     return config;
