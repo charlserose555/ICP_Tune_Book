@@ -32,12 +32,12 @@ export const idlFactory = ({ IDL }) => {
     'authentication' : IDL.Func([IDL.Text], [IDL.Opt(Profile)], ['query']),
     'browse_people' : IDL.Func(
         [IDL.Text, IDL.Int32],
-        [IDL.Vec(Friend)],
+        [IDL.Vec(Friend), IDL.Int32],
         ['query'],
       ),
     'filter_tunes' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Text, IDL.Int32],
-        [IDL.Vec(OriginTune)],
+        [IDL.Vec(OriginTune), IDL.Int32],
         ['query'],
       ),
     'get_friends' : IDL.Func([IDL.Text], [IDL.Vec(Friend)], ['query']),
@@ -49,13 +49,13 @@ export const idlFactory = ({ IDL }) => {
     'get_original_tune' : IDL.Func([IDL.Text], [IDL.Text], ['query']),
     'get_original_tune_list' : IDL.Func(
         [IDL.Int32],
-        [IDL.Vec(IDL.Text)],
+        [IDL.Vec(IDL.Text), IDL.Int32],
         ['query'],
       ),
     'get_user_tune' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], ['query']),
     'get_user_tune_list' : IDL.Func(
         [IDL.Text, IDL.Int32],
-        [IDL.Vec(IDL.Text)],
+        [IDL.Vec(IDL.Text), IDL.Int32],
         ['query'],
       ),
     'init' : IDL.Func([], [], []),

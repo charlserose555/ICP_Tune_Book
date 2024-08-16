@@ -36,7 +36,11 @@ function Profile() {
 
   const saveProfile = async () => {
     try{
-      if(!username || !avatarData || instrument.length == 0 || !placeOfBirth) {
+      console.log(instrument)
+
+      if(!username || !avatarData || !placeOfBirth) {
+        alert("warning", "Please input profile info exactly")
+      } else if(instrument == null || instrument.length == 0) {
         alert("warning", "Please input profile info exactly")
       } else {            
         loading();
@@ -100,22 +104,20 @@ function Profile() {
     setUsername(user.username);
     setAvatarData(user.avatar);
     setPlaceOfBirth(user.placeOfBirth);
-
+    
     const items = user.instruments.split(',').map(item => item.trim());
 
-    console.log("items", items);
+    
+    if(items.length > 0 && items[0]!= '') {
+      console.log("aa", items[0])
+      // Map each item to an object with value and label
+      const resultArray = items.map(item => ({
+          value: item,
+          label: item
+      }));
 
-    // Map each item to an object with value and label
-    const resultArray = items.map(item => ({
-        value: item,
-        label: item
-    }));
-
-    console.log("resultArray", resultArray);
-
-
-    setInstrument(resultArray);
-    console.log("user", user)
+      setInstrument(resultArray);
+    }
   }, [user])
 
   return (
@@ -211,8 +213,9 @@ function Profile() {
                           <p className='text-white font-bold'> Friends List</p>
                       </a>
                       <a className="fill-btn-secondary text-12 w-36 px-4 py-2 text-white font-medium bg-green-450 rounded-8 flex flex-row justify-center gap-45 items-center"
-                          style={{textAlign: 'center', cursor: 'pointer'}}>
-                          <p className='text-white font-bold'> Tunebook</p>
+                          style={{textAlign: 'center', cursor: 'pointer'}}
+                          onClick={() => {history.push("/app/my_tunes")}}>
+                          <p className='text-white font-bold'>My Tunebook</p>
                       </a>
                       <a className="fill-btn-secondary text-12 w-36 px-4 py-2 text-white font-medium bg-green-450 rounded-8 flex flex-row justify-center gap-45 items-center"
                           style={{textAlign: 'center', cursor: 'pointer'}}

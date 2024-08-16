@@ -10,12 +10,12 @@ import { lazy } from "react";
 const Home = lazy(() => import("../pages/Home/Home"));
 const Login = lazy(() => import("../pages/LogIn/Login"));
 const Tunes = lazy(() => import("../pages/Home/Tunes"));
+const MyTunes = lazy(() => import("../pages/Home/MyTune"));
 const Playground = lazy(() => import("../pages/Home/Playground"));
 
 const Artist = lazy(() => import("../pages/Profile/Artist"));
 const Page404 = lazy(() => import("../pages/404"));
 const Blank = lazy(() => import("../pages/Blank"));
-const TrackDetail = lazy(() => import("../pages/Home/TrackDetail"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
 const Manage = lazy(() => import("../pages/Manage/Manage"));
 
@@ -33,6 +33,13 @@ const routes = [
     name: "Home",
     role: "user",
     component: Tunes,
+  },
+  {
+    path: "/my_tunes",
+    icon: "./home.svg",
+    name: "Home",
+    role: "user",
+    component: MyTunes,
   },
   {
     path: "/playground",

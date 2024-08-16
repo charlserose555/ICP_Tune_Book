@@ -40,7 +40,7 @@ function LoginLayout() {
               username: "",
               avatar: "",
               placeOfBirth: "",
-              instruments: [],
+              instruments: "",
               isInitialized: false
           }
 
@@ -64,7 +64,7 @@ function LoginLayout() {
             username: authentication[0].username,
             avatar: avatarUrl,
             placeOfBirth: authentication[0]?.placeOfBirth,
-            instruments: authentication[0]?.instruments?.slice(","),
+            instruments: authentication[0]?.instruments,
             isInitialized: true
           }
 
